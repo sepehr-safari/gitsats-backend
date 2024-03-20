@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@getalby/sdk": "^3.4.0",
+    "@nostr-dev-kit/ndk": "^2.5.1",
     "cheerio": "^1.0.0-rc.12",
     "next": "14.1.4",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "websocket-polyfill": "^1.0.0"
   },
   "devDependencies": {
     "@types/node": "^20",
