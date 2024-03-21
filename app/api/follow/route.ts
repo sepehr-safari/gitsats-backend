@@ -9,6 +9,11 @@ const NDK_PUBLIC_KEY = process.env.NDK_PUBLIC_KEY;
 const NDK_PRIVATE_KEY = process.env.NDK_PRIVATE_KEY;
 const NWC_URL = process.env.NWC_URL;
 const ZAP_AMOUNT = 1000 * 1000; // 1000 sats
+const HEADERS = {
+  'content-type': 'application/json',
+  'cache-control': 'no-cache',
+  'Access-Control-Allow-Origin': '*',
+};
 
 export async function GET(request: Request) {
   // check environment variables
@@ -17,7 +22,7 @@ export async function GET(request: Request) {
       JSON.stringify({ success: false, error: 'Missing environment variables' }),
       {
         status: 500,
-        headers: { 'content-type': 'application/json' },
+        headers: HEADERS,
       }
     );
   }
@@ -34,7 +39,7 @@ export async function GET(request: Request) {
   if (!un || !pk) {
     return new Response(JSON.stringify({ success: false, error: 'Missing parameters' }), {
       status: 400,
-      headers: { 'content-type': 'application/json' },
+      headers: HEADERS,
     });
   }
 
@@ -52,7 +57,7 @@ export async function GET(request: Request) {
   if (!isFollowing) {
     return new Response(JSON.stringify({ success: false, error: 'Not following' }), {
       status: 400,
-      headers: { 'content-type': 'application/json' },
+      headers: HEADERS,
     });
   }
 
@@ -82,7 +87,7 @@ export async function GET(request: Request) {
       JSON.stringify({ success: false, error: 'Error fetching paid users event' }),
       {
         status: 500,
-        headers: { 'content-type': 'application/json' },
+        headers: HEADERS,
       }
     );
   }
@@ -92,13 +97,13 @@ export async function GET(request: Request) {
   } catch (_) {
     return new Response(JSON.stringify({ success: false, error: 'Error parsing paid users' }), {
       status: 500,
-      headers: { 'content-type': 'application/json' },
+      headers: HEADERS,
     });
   }
   if (paidUsers.includes(un)) {
     return new Response(JSON.stringify({ success: false, error: 'Already paid' }), {
       status: 400,
-      headers: { 'content-type': 'application/json' },
+      headers: HEADERS,
     });
   }
 
@@ -108,7 +113,7 @@ export async function GET(request: Request) {
   if (!invoice) {
     return new Response(JSON.stringify({ success: false, error: 'Error creating invoice' }), {
       status: 500,
-      headers: { 'content-type': 'application/json' },
+      headers: HEADERS,
     });
   }
 
@@ -136,13 +141,13 @@ export async function GET(request: Request) {
   } catch (_) {
     return new Response(JSON.stringify({ success: false, error: 'Error publishing paid list' }), {
       status: 500,
-      headers: { 'content-type': 'application/json' },
+      headers: HEADERS,
     });
   }
 
   // return response
   return new Response(JSON.stringify({ success: true, isFollowing, isPaid }), {
     status: 200,
-    headers: { 'content-type': 'application/json' },
+    headers: HEADERS,
   });
 }
